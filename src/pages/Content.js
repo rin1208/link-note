@@ -35,8 +35,12 @@ function Content() {
     const [front, setPost] = useState([]);
 
     useEffect(() => {
+        const headers = {
+            'Authorization': localStorage.getItem("jwt") ,
+            'Uid': localStorage.getItem("uid") 
+        }
         axios
-            .get(`${'http://localhost:8080/getcontent'}`)
+            .get(`${'http://localhost:8080/getcontent'}`, {headers: headers})
             .then(results => {
                 setPost(results.data)
                 console.log(results.data);

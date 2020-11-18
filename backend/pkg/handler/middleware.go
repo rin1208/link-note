@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (api API) AuthMiddleware(c *gin.Context) {
+func (api API) AuthJWT(c *gin.Context) {
 	ua := c.GetHeader("Authorization")
 
 	fmt.Println(ua, c.GetHeader("Uid"))

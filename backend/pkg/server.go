@@ -14,7 +14,7 @@ func Serve(r *gin.Engine, port string) {
 	api := handler.Init_API()
 
 	r.POST("/post", api.Post)
-	r.GET("/getcontent", api.GetContent)
+	r.GET("/getcontent", api.AuthJWT, api.GetContent)
 	r.Run(port)
 }
 

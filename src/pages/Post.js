@@ -59,7 +59,7 @@ function Post() {
 
                 <Post_field>
                     <TextField label="url" onChange={handleUrl} />
-                    <TextField label="comment" onChange={handcomment} />
+                    {/* <TextField label="comment" onChange={handcomment} /> */}
                 </Post_field>
                 <div className="post__button">
                     <Button onClick={handleSubmit} variant="outlined">post</Button>

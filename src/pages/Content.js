@@ -46,9 +46,13 @@ function Content() {
     var list = front.map(function (item) {
         return (
             <Grid item xs={6} md={3}>
-
                 <Card >
                     <CardContent>
+                        <Typography  >
+                            <p>
+                                {item.comment}
+                            </p>
+                        </Typography>
                         <Typography  >
                             <ReactTinyLink
                                 cardSize="small"
@@ -58,6 +62,7 @@ function Content() {
                                 url={item.url}
                             />
                         </Typography>
+
                     </CardContent>
 
                     <Sub>

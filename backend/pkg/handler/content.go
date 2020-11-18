@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"linknote/backend/pkg/infra"
 	"linknote/backend/pkg/model"
 	"linknote/backend/pkg/usecase"
@@ -31,8 +30,7 @@ func (api API) Post(c *gin.Context) {
 }
 func (api API) GetContent(c *gin.Context) {
 
-	dataa := api.FireBaseClient.GetData(c.GetHeader("Uid"))
-	fmt.Println(dataa)
+	data := api.FireBaseClient.GetData(c.GetHeader("Uid"))
 
-	c.JSON(200, dataa)
+	c.JSON(200, data)
 }

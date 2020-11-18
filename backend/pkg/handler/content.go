@@ -24,6 +24,7 @@ func (api API) Post(c *gin.Context) {
 	c.BindJSON(&data)
 	data.Content_id = usecase.Uuid4()
 	data.Date = usecase.GetDeteInTokyo()
+	data.Uid = c.GetHeader("Uid")
 	api.FireBaseClient.InsertData(data)
 
 	c.JSON(200, data)

@@ -1,14 +1,16 @@
 package handler
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 )
 
 func (api API) AuthJWT(c *gin.Context) {
-	ua := c.GetHeader("Authorization")
+	jwt := c.GetHeader("Authorization")
 
-	fmt.Println(ua, c.GetHeader("Uid"))
+	err := api.FireBaseClient.AuthJWT(jwt)
+	if err != nil {
+		c.JSON(404, "Forbidden")
+		c.Abort()
+	}
 	c.Next()
 }

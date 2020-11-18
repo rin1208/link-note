@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from 'react'
 
 import Grid from "@material-ui/core/Grid";
-
+import axios from 'axios'
 import styled from "@emotion/styled";
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -31,62 +31,18 @@ margin-top: auto;
 
 
 function Content() {
-    var front = [
-        {
-            title: "Twitter",
-            coment: "ほげ",
-            url: "https://twitter.com/rin_kannzaki",
-        },
-        {
-            title: "Twitter",
-            coment: "ほげ",
-            url: "https://twitter.com/rin1208_sugi",
-        },
-        {
-            title: "Twitter",
-            coment: "ほげ",
-            url: "https://twitter.com/rin_kannzaki",
-        },
-        {
-            title: "Twitter",
-            coment: "ほげ",
-            url: "https://twitter.com/rin1208_sugi",
-        },
 
-        {
-            title: "Twitter",
-            coment: "ほげ",
-            url: "https://twitter.com/rin_kannzaki",
-        },
-        {
-            title: "Twitter",
-            coment: "ほげ",
-            url: "https://twitter.com/rin1208_sugi",
-        },
+    const [front, setPost] = useState([]);
 
-        {
-            title: "Twitter",
-            coment: "ほげ",
-            url: "https://twitter.com/rin_kannzaki",
-        },
-        {
-            title: "Twitter",
-            coment: "ほげ",
-            url: "https://twitter.com/rin1208_sugi",
-        },
+    useEffect(() => {
+        axios
+            .get(`${'http://localhost:8080/getcontent'}`)
+            .then(results => {
+                setPost(results.data)
+                console.log(results.data);
+            })
+    }, []);
 
-        {
-            title: "Twitter",
-            coment: "ほげ",
-            url: "https://twitter.com/rin_kannzaki",
-        },
-        {
-            title: "Twitter",
-            coment: "ほげ",
-            url: "https://twitter.com/rin1208_sugi",
-        },
-
-    ];
     var list = front.map(function (item) {
         return (
             <Grid item xs={6} md={3}>

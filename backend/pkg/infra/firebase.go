@@ -67,7 +67,7 @@ func (fb *FireBase) InsertData(data model.Content) {
 func (fb *FireBase) GetData(uid string) []model.Content {
 
 	var res_data []model.Content
-	iter := fb.FireStore.Collection("bpvLeP5RouVb8293F2D6O1kHT9m1").Documents(fb.Ctx)
+	iter := fb.FireStore.Collection("W33YCKIumoThiRMEBR4z0itfGn33").Documents(fb.Ctx)
 
 	for {
 		doc, err := iter.Next()

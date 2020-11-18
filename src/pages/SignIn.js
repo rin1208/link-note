@@ -22,6 +22,7 @@ function SignIn() {
 				user.getIdToken().then(function (idToken) {
 
 					console.log(idToken);
+					localStorage.setItem('jwt', idToken)
 				});
 
 

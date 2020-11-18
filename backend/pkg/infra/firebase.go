@@ -89,3 +89,28 @@ func (fb *FireBase) GetData(uid string) []model.Content {
 	return res_data
 
 }
+func (fb *FireBase) AuthJWT(jwt string) []model.Content {
+
+	var res_data []model.Content
+	iter := fb.FireStore.Collection("W33YCKIumoThiRMEBR4z0itfGn33").Documents(fb.Ctx)
+
+	for {
+		doc, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			log.Fatalf("Failed to iterate: %v", err)
+		}
+		data := doc.Data()
+		var content model.Content
+		content.Comment = data["comment"].(string)
+		content.Url = data["url"].(string)
+		content.Date = int(data["date"].(int64))
+
+		res_data = append(res_data, content)
+	}
+
+	return res_data
+
+}

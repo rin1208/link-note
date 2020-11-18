@@ -29,11 +29,8 @@ func (api API) Post(c *gin.Context) {
 	c.JSON(200, data)
 }
 func (api API) GetContent(c *gin.Context) {
-	var data model.Content
 
-	// c.BindJSON(&data)
-
-	dataa := api.FireBaseClient.GetData(data.Uid)
+	dataa := api.FireBaseClient.GetData(c.GetHeader("Uid"))
 	fmt.Println(dataa)
 
 	c.JSON(200, dataa)

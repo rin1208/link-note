@@ -30,8 +30,8 @@ func main() {
 		AllowHeaders: []string{
 			"Content-Type",
 			"Content-Length",
-			"cache-control",
-			"user_id",
+			"Authorization",
+			"Uid",
 		},
 		AllowOrigins: []string{
 			"http://localhost:3000",

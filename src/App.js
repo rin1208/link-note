@@ -10,15 +10,16 @@ function App() {
   return (
     <div >
       <Router>
-
-        <Header />
-
-
+        {uid === null &&
+          <Redirect to="/login" />
+        }
+        {uid != null &&
+          <Header />
+        }
 
         <Route path='/login'><SignIn /></Route>
         <Route exact path='/'><Post /></Route>
         <Route exact path='/'><Content /></Route>
-    
       </Router>
     </div>
   );

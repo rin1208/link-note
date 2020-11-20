@@ -29,6 +29,11 @@ const Post_field = styled.div`
     flex-direction: column;
     margin: 20px 0 0 0
 `;
+const Back = styled.div`
+background: #326693; 
+`;
+
+
 const Footer = styled.footer`
 width: 95%;
 text-align: center;
@@ -104,6 +109,10 @@ function Content() {
                 console.log(results.data);
             })
     }, []);
+    const deleteContent = (id ) => {
+ 
+        console.log("aaaaaaa", id)
+    }
 
     var list = front.map(function (item) {
         return (
@@ -129,14 +138,18 @@ function Content() {
 
                     <Sub>
                         <CardActions>
-                            <Button size="big" color="primary">
+                            <Button size="big" color="primary"
+                                key={item.content_id}
+                                onClick={() => deleteContent(item.content_id)}
+                           >
                                 Delete
                         </Button>
+                       
                         </CardActions>
                     </Sub>
 
                 </Card>
-
+               
             </Grid>
         );
     });
@@ -149,7 +162,7 @@ function Content() {
                     </Grid>
                 </Grid>
             </Main>
-            <Main>
+            <Card >
                 <Footer>
                     <Grid container item xs={12} spacing={2}>
                         <Grid item xs={10} md={10}>
@@ -163,7 +176,7 @@ function Content() {
                         </Grid>
                     </Grid>
                 </Footer>
-            </Main>
+            </Card >
         </Main>
     );
 }

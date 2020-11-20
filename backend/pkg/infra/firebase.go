@@ -82,6 +82,7 @@ func (fb *FireBase) GetData(uid string) []model.Content {
 		var content model.Content
 		content.Comment = data["comment"].(string)
 		content.Url = data["url"].(string)
+		content.Content_id = data["content_id"].(string)
 		content.Date = int(data["date"].(int64))
 
 		res_data = append(res_data, content)

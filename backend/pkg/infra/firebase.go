@@ -65,10 +65,23 @@ func (fb *FireBase) InsertData(data model.Content) {
 		log.Printf("An error has occurred: %s", updateError)
 	}
 }
+
+func (fb *FireBase) DeleteData(uid, id string) error {
+
+	_, err := fb.FireStore.Collection(uid).Doc(id).Delete(fb.Ctx)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}
+
 func (fb *FireBase) GetData(uid string) []model.Content {
 
 	var res_data []model.Content
-	iter := fb.FireStore.Collection("W33YCKIumoThiRMEBR4z0itfGn33").Documents(fb.Ctx)
+	iter := fb.FireStore.Collection(uid).Documents(fb.Ctx)
 
 	for {
 		doc, err := iter.Next()
@@ -91,6 +104,7 @@ func (fb *FireBase) GetData(uid string) []model.Content {
 	return res_data
 
 }
+
 func (fb *FireBase) AuthJWT(jwt string) error {
 
 	auth, err := fb.FireBase.Auth(fb.Ctx)

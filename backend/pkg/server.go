@@ -16,6 +16,7 @@ func Serve(r *gin.Engine, port string) {
 
 	r.POST("/post", api.Post)
 	r.GET("/getcontent", api.GetContent)
+	r.POST("/deletecontent", api.DeleteContent)
 	r.Run(port)
 }
 

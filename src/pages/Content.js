@@ -109,9 +109,19 @@ function Content() {
                 console.log(results.data);
             })
     }, []);
-    const deleteContent = (id ) => {
+    const deleteContent =async (id ) => {
  
-        console.log("aaaaaaa", id)
+       
+        const data = { content_id: id }
+        const headers = {
+            'Authorization': localStorage.getItem("jwt") ,
+            'Uid': localStorage.getItem("uid") 
+        }
+
+        await axios.post(`${'http://localhost:8080/deletecontent'}`, data,{headers: headers}).then((results) => {
+            console.log(results);
+        })
+        getContent();
     }
 
     var list = front.map(function (item) {

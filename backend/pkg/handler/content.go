@@ -34,3 +34,13 @@ func (api API) GetContent(c *gin.Context) {
 
 	c.JSON(200, data)
 }
+
+func (api API) DeleteContent(c *gin.Context) {
+
+	var data model.Content
+	c.BindJSON(&data)
+
+	err := api.FireBaseClient.DeleteData(c.GetHeader("Uid"), data.Content_id)
+
+	c.JSON(200, err)
+}

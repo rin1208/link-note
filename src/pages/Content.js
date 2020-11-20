@@ -35,6 +35,7 @@ text-align: center;
 padding: 30px 0;
 position: absolute;
 bottom: 0; 
+position: fixed;
 `;
 
 

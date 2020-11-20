@@ -5,12 +5,20 @@ import Button from '@material-ui/core/Button';
 import { Redirect } from 'react-router-dom'
 import axios from 'axios';
 import styled from "@emotion/styled";
-
+import Grid from "@material-ui/core/Grid";
 
 const Post_field = styled.div`
     display: flex;
     flex-direction: column;
     margin: 20px 0 0 0
+`;
+const Footer = styled.footer`
+margin-top: auto;
+`;
+const Main = styled.div`
+display: "flex";
+margin: 20;
+text-align: center;
 `;
 
 
@@ -54,19 +62,32 @@ function Post() {
     }
 
     return (
-        <div className="post__wrap">
-            <div className="post">
+        <Main>
 
-                <Post_field>
-                    <TextField label="url" onChange={handleUrl} />
-                    {/* <TextField label="comment" onChange={handcomment} /> */}
-                </Post_field>
-                <div className="post__button">
-                    <Button onClick={handleSubmit} variant="outlined">post</Button>
-                </div>
+            <div className="post">
+              
+                    <Grid container item xs={12} spacing={2}>
+                        <Grid item xs={10} md={10}>
+                            <Post_field>
+                                <TextField label="url" onChange={handleUrl} />
+                                
+                                {/* <TextField label="comment" onChange={handcomment} /> */}
+                            </Post_field>
+                    </Grid>
+                    <Grid item xs={2} md={2}>
+                        <Button onClick={handleSubmit} variant="outlined">post</Button>
+                    </Grid>
+                    </Grid>
+                
+                
+                    
             </div>
-        </div>
+            <Footer>
+                    <p>(c)copy right</p>
+            </Footer>
+        </Main>
     )
+
 }
 
 export default Post;

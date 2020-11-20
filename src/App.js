@@ -16,9 +16,9 @@ function App() {
 
 
         <Route path='/login'><SignIn /></Route>
-        <Route path='/post'><Post /></Route>
+        <Route exact path='/'><Post /></Route>
         <Route exact path='/'><Content /></Route>
-
+    
       </Router>
     </div>
   );

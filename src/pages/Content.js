@@ -96,9 +96,7 @@ function Content() {
             </Main>
 
             <Main>
-                <Footer>
-                    <p>(c)copy right</p>
-                </Footer>
+         
             </Main>
 
         </div>

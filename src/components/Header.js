@@ -12,9 +12,9 @@ function Header() {
 				<Link to="/">
 					<Tab label="Home" />
 				</Link>
-				<Link to="/post">
+				{/* <Link to="/post">
 					<Tab label="Post" />
-				</Link>
+				</Link> */}
 				<Link to="/login">
 					<Tab label="LogOut" />
 				</Link>

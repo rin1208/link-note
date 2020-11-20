@@ -1,9 +1,11 @@
 import React from 'react';
 import Header from './components/Header'
 import Content from './pages/Content'
-import Post from './pages/Post'
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import SignIn from './pages/SignIn'
+import styled from "@emotion/styled"
+
+
 function App() {
   const uid = localStorage.getItem('uid')
 
@@ -18,7 +20,7 @@ function App() {
         }
 
         <Route path='/login'><SignIn /></Route>
-        <Route exact path='/'><Post /></Route>
+      
         <Route exact path='/'><Content /></Route>
       </Router>
     </div>

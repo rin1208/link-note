@@ -21,10 +21,8 @@ jobs:
       - name: Install dependencies
         env:
           REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
-        run: |
-          yarn
-        run: |
-          yarn build
+        run: yarn
+        run: yarn build
 
       - name: Setup Firebase CLI
         run: |

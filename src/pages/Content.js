@@ -134,51 +134,54 @@ function Content() {
         getContent();
     }
 
-    var list = front.map(function (item) {
-        return (
-            <Grid item xs={6} md={3}>
-                <Card >
-                    <CardContent>
-                        <Typography  >
-                            <p>
-                                {item.comment}
-                            </p>
-                        </Typography>
-                        <Typography  >
-                            <ReactTinyLink
-                                cardSize="small"
-                                showGraphic={true}
-                                maxLine={2}
-                                minLine={1}
-                                url={item.url}
-                            />
-                        </Typography>
-
-                    </CardContent>
-
-                    <Sub>
-                        <CardActions>
-                            <Button size="big" color="primary"
-                                key={item.content_id}
-                                onClick={() => deleteContent(item.content_id)}
-                           >
-                                Delete
-                        </Button>
-                       
-                        </CardActions>
-                    </Sub>
-
-                </Card>
-               
-            </Grid>
-        );
-    });
+    
     return (
         <Main>
             <Main>
                 <Grid container spacing={1}>
                     <Grid container item xs={12} spacing={2}>
-                        {list}
+
+                        { front != null && 
+                            front.map(function (item) {
+                                return (
+                                    <Grid item xs={6} md={3}>
+                                        <Card >
+                                            <CardContent>
+                                                <Typography  >
+                                                    <p>
+                                                        {item.comment}
+                                                    </p>
+                                                </Typography>
+                                                <Typography  >
+                                                    <ReactTinyLink
+                                                        cardSize="small"
+                                                        showGraphic={true}
+                                                        maxLine={2}
+                                                        minLine={1}
+                                                        url={item.url}
+                                                    />
+                                                </Typography>
+                        
+                                            </CardContent>
+                        
+                                            <Sub>
+                                                <CardActions>
+                                                    <Button size="big" color="primary"
+                                                        key={item.content_id}
+                                                        onClick={() => deleteContent(item.content_id)}
+                                                   >
+                                                        Delete
+                                                </Button>
+                                               
+                                                </CardActions>
+                                            </Sub>
+                        
+                                        </Card>
+                                       
+                                    </Grid>
+                                );
+                            })
+                        }
                     </Grid>
                 </Grid>
             </Main>

@@ -25,13 +25,14 @@ func (api API) Post(c *gin.Context) {
 	match, _ := regexp.MatchString("http", data.Url)
 	if !match {
 		c.JSON(404, "Forbidden")
+	} else {
+		data.Content_id = usecase.Uuid4()
+		data.Date = usecase.GetDeteInTokyo()
+		data.Uid = c.GetHeader("Uid")
+		api.FireBaseClient.InsertData(data)
+		c.JSON(200, data)
 	}
-	data.Content_id = usecase.Uuid4()
-	data.Date = usecase.GetDeteInTokyo()
-	data.Uid = c.GetHeader("Uid")
-	api.FireBaseClient.InsertData(data)
 
-	c.JSON(200, data)
 }
 func (api API) GetContent(c *gin.Context) {
 

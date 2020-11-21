@@ -42,7 +42,7 @@ function SignIn() {
 		localStorage.removeItem('uid')
 	}
 
-	if (loading) return <div>loading</div>;
+	if (loading) return <Main>loading</Main>;
 	return (
 		<Main>
 			{user ?

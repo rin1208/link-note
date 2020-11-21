@@ -20,7 +20,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          yarn
+          yarn install
 
       - name: Build React app
         env:

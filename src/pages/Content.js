@@ -10,6 +10,8 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import { ReactTinyLink } from 'react-tiny-link'
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import Typography from '@material-ui/core/Typography';
 
@@ -50,7 +52,15 @@ function Content() {
     const [url, setUrl] = useState("");
     const [comment, setComment] = useState("");
     const [isRedirect, setIsRedirect] = useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
 
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+  
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
     const handleUrl = e => {
         setUrl(e.target.value)
     }

@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import firebase from '../firebase';
-
+import Button from '@material-ui/core/Button';
 import SignInScreen from '../components/SignInScreen'
+import styled from "@emotion/styled";
+const Main = styled.div`
+display: "flex";
+margin: 20;
+text-align: center;
+`;
 
 function SignIn() {
 	const [loading, setLoading] = useState(true);
@@ -38,12 +44,12 @@ function SignIn() {
 
 	if (loading) return <div>loading</div>;
 	return (
-		<div>
+		<Main>
 			{user ?
-				(<button onClick={logout}>Logout</button>) :
+				(<Button onClick={logout} variant="contained" color="primary" disableElevatio>Logout</Button>) :
 				(<SignInScreen />)
 			}
-		</div>
+		</Main>
 	)
 }
 

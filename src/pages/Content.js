@@ -76,7 +76,7 @@ function Content() {
             'Uid': localStorage.getItem("uid") 
         }
 
-        await axios.post(`${'http://localhost:8080/post'}`, data,{headers: headers}).then((results) => {
+        await axios.post(`${process.env.REACT_APP_SERVER_URL+'/post'}`, data,{headers: headers}).then((results) => {
             console.log(results);
             setUrl("") 
         })
@@ -89,7 +89,7 @@ function Content() {
             'Uid': localStorage.getItem("uid") 
         }
         axios
-            .get(`${'http://localhost:8080/getcontent'}`, {headers: headers})
+            .get(`${process.env.REACT_APP_SERVER_URL+'/getcontent'}`, {headers: headers})
             .then(results => {
                 setPost(results.data)
                 console.log(results.data);
@@ -103,7 +103,7 @@ function Content() {
             'Uid': localStorage.getItem("uid") 
         }
         axios
-            .get(`${'http://localhost:8080/getcontent'}`, {headers: headers})
+            .get(`${process.env.REACT_APP_SERVER_URL+'/getcontent'}`, {headers: headers})
             .then(results => {
                 setPost(results.data)
                 console.log(results.data);
@@ -118,7 +118,7 @@ function Content() {
             'Uid': localStorage.getItem("uid") 
         }
 
-        await axios.post(`${'http://localhost:8080/deletecontent'}`, data,{headers: headers}).then((results) => {
+        await axios.post(`${process.env.REACT_APP_SERVER_URL+'/deletecontent'}`, data,{headers: headers}).then((results) => {
             console.log(results);
         })
         getContent();
@@ -172,21 +172,27 @@ function Content() {
                     </Grid>
                 </Grid>
             </Main>
-            <Card >
-                <Footer>
-                    <Grid container item xs={12} spacing={2}>
-                        <Grid item xs={10} md={10}>
-                            <Post_field>
-                                <TextField label="url" onChange={handleUrl} value={url} />
-                                {/* <TextField label="comment" onChange={handcomment} /> */}
-                            </Post_field>
-                        </Grid>
-                        <Grid item xs={2} md={2}>
-                            <Button onClick={handleSubmit} variant="outlined">post</Button>
-                        </Grid>
-                    </Grid>
-                </Footer>
-            </Card >
+            
+            <Footer>
+                <Card >
+                    <CardContent>
+                        <Typography  >
+                            <Grid container item xs={12} spacing={2}>
+                                <Grid item xs={10} md={10}>
+                                    <Post_field>
+                                        <TextField label="url" onChange={handleUrl} value={url} />
+                                        {/* <TextField label="comment" onChange={handcomment} /> */}
+                                    </Post_field>
+                                </Grid>
+                                <Grid item xs={2} md={2}>
+                                    <Button onClick={handleSubmit} variant="outlined">post</Button>
+                                </Grid>
+                            </Grid>
+                        </Typography>
+                    </CardContent>
+                </Card >
+            </Footer>
+            
         </Main>
     );
 }

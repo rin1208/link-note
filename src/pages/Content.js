@@ -131,6 +131,7 @@ function Content() {
         await axios.post(`${process.env.REACT_APP_SERVER_URL+'/deletecontent'}`, data,{headers: headers}).then((results) => {
             console.log(results);
         })
+        setAnchorEl(null);
         getContent();
     }
 
@@ -166,13 +167,19 @@ function Content() {
                         
                                             <Sub>
                                                 <CardActions>
-                                                    <Button size="big" color="primary"
-                                                        key={item.content_id}
-                                                        onClick={() => deleteContent(item.content_id)}
-                                                   >
-                                                        Delete
-                                                </Button>
-                                               
+                                       
+                                                    <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                                                    Delete
+                                                    </Button>
+                                                    <Menu
+                                                        anchorEl={anchorEl}
+                                                        keepMounted
+                                                        open={Boolean(anchorEl)}
+                                                        onClose={handleClose}
+                                                    >
+                                                        <MenuItem key={item.content_id} onClick={() => deleteContent(item.content_id)}> Delete</MenuItem>  
+                                                        <MenuItem onClick={handleClose}>Close</MenuItem>
+                                                    </Menu>                                               
                                                 </CardActions>
                                             </Sub>
                         

@@ -1,4 +1,4 @@
-module linknote
+module link-note
 
 go 1.14
 

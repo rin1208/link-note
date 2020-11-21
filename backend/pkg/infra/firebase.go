@@ -2,7 +2,7 @@ package infra
 
 import (
 	"context"
-	"linknote/backend/pkg/model"
+	"link-note/backend/pkg/model"
 	"log"
 	"strings"
 

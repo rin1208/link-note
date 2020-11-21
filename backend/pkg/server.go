@@ -2,8 +2,8 @@ package pkg
 
 import (
 	"fmt"
-	"linknote/backend/pkg/handler"
-	"linknote/backend/pkg/infra"
+	"link-note/backend/pkg/handler"
+	"link-note/backend/pkg/infra"
 	"os"
 
 	"github.com/gin-gonic/gin"

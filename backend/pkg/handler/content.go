@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"linknote/backend/pkg/infra"
-	"linknote/backend/pkg/model"
-	"linknote/backend/pkg/usecase"
+	"link-note/backend/pkg/infra"
+	"link-note/backend/pkg/model"
+	"link-note/backend/pkg/usecase"
 	"regexp"
 
 	"github.com/gin-gonic/gin"

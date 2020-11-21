@@ -1,7 +1,7 @@
 package main
 
 import (
-	"linknote/backend/pkg"
+	"link-note/backend/pkg"
 	"time"
 
 	"fmt"

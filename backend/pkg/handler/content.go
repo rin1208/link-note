@@ -4,6 +4,7 @@ import (
 	"linknote/backend/pkg/infra"
 	"linknote/backend/pkg/model"
 	"linknote/backend/pkg/usecase"
+	"regexp"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,6 +22,10 @@ func Init_API() *API {
 func (api API) Post(c *gin.Context) {
 	var data model.Content
 	c.BindJSON(&data)
+	match, _ := regexp.MatchString("http", data.Url)
+	if !match {
+		c.JSON(404, "Forbidden")
+	}
 	data.Content_id = usecase.Uuid4()
 	data.Date = usecase.GetDeteInTokyo()
 	data.Uid = c.GetHeader("Uid")

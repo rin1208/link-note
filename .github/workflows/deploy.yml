@@ -2,38 +2,27 @@ name: ci
 
 on:
   push:
-    branches: [ master ]
+    braches: 
+      - master
 
 jobs:
-  build:
+  firebase:
+    name: Build and Deploy Firebase Hosting
     runs-on: ubuntu-latest
-    timeout-minutes: 5
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@master
-
-      - name: Setup node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 14.4.0
-
+      - name: Check out code
+        uses: actions/checkout@v2
       - name: Install dependencies
-        run: |
-          yarn install
-
-      - name: Build React app
+        run: yarn
+      - name: Build vue contents
         env:
           REACT_APP_FIREBASE_API_KEY: ${{ secrets.REACT_APP_FIREBASE_API_KEY }}
-        run: |
-          yarn build
-
-      - name: Setup Firebase CLI
-        run: |
-          npm install -g firebase-tools
-
-      - name: Deploy Firebase
+        run: yarn build
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only hosting
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: |
-          firebase deploy --token $FIREBASE_TOKEN
+
+ 

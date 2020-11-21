@@ -178,7 +178,7 @@ function Content() {
                                                         onClose={handleClose}
                                                     >
                                                         <MenuItem key={item.content_id} onClick={() => deleteContent(item.content_id)}> Delete</MenuItem>  
-                                                        <MenuItem onClick={handleClose}>Close</MenuItem>
+                                                        <MenuItem onClick={handleClose}>Cansell</MenuItem>
                                                     </Menu>                                               
                                                 </CardActions>
                                             </Sub>

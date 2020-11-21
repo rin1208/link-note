@@ -26,13 +26,24 @@ type FirestoreAuth struct {
 	Client_x509_cert_url        string `json:"client_x509_cert_url"`
 }
 
-type FireBase struct {
+type FireBaseClient struct {
 	FireBase  *firebase.App
 	FireStore *firestore.Client
 	Ctx       context.Context
 }
 
-func Init_firebase() *FireBase {
+type FireBaseHandler interface {
+	InsertData(data model.Content)
+	DeleteData(uid, id string) error
+	GetData(uid string) []model.Content
+	AuthJWT(jwt string) error
+}
+
+type FireBase struct {
+	FireBaseHandler
+}
+
+func Init_firebase() FireBaseHandler {
 
 	ctx := context.Background()
 	sa := option.WithCredentialsFile("./firestore.json")
@@ -46,14 +57,14 @@ func Init_firebase() *FireBase {
 		return nil
 	}
 
-	return &FireBase{
+	return &FireBaseClient{
 		FireBase:  app,
 		FireStore: client,
 		Ctx:       ctx,
 	}
 }
 
-func (fb *FireBase) InsertData(data model.Content) {
+func (fb *FireBaseClient) InsertData(data model.Content) {
 
 	_, updateError := fb.FireStore.Collection(data.Uid).Doc(data.Content_id).Set(fb.Ctx, map[string]interface{}{
 		"content_id": data.Content_id,
@@ -66,7 +77,7 @@ func (fb *FireBase) InsertData(data model.Content) {
 	}
 }
 
-func (fb *FireBase) DeleteData(uid, id string) error {
+func (fb *FireBaseClient) DeleteData(uid, id string) error {
 
 	_, err := fb.FireStore.Collection(uid).Doc(id).Delete(fb.Ctx)
 
@@ -78,7 +89,7 @@ func (fb *FireBase) DeleteData(uid, id string) error {
 
 }
 
-func (fb *FireBase) GetData(uid string) []model.Content {
+func (fb *FireBaseClient) GetData(uid string) []model.Content {
 
 	var res_data []model.Content
 	iter := fb.FireStore.Collection(uid).Documents(fb.Ctx)
@@ -105,7 +116,7 @@ func (fb *FireBase) GetData(uid string) []model.Content {
 
 }
 
-func (fb *FireBase) AuthJWT(jwt string) error {
+func (fb *FireBaseClient) AuthJWT(jwt string) error {
 
 	auth, err := fb.FireBase.Auth(fb.Ctx)
 	if err != nil {

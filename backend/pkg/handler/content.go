@@ -13,10 +13,13 @@ type API struct {
 	FireBaseClient *infra.FireBase
 }
 
-func Init_API() *API {
+func Init_API(firebase infra.FireBaseHandler) *API {
 	return &API{
-		FireBaseClient: infra.Init_firebase(),
+		FireBaseClient: &infra.FireBase{
+			FireBaseHandler: firebase,
+		},
 	}
+
 }
 
 func (api API) Post(c *gin.Context) {

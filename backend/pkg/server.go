@@ -3,6 +3,7 @@ package pkg
 import (
 	"fmt"
 	"linknote/backend/pkg/handler"
+	"linknote/backend/pkg/infra"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -11,7 +12,7 @@ import (
 func Serve(r *gin.Engine, port string) {
 
 	CreateFireStoreJson()
-	api := handler.Init_API()
+	api := handler.Init_API(infra.Init_firebase())
 	r.Use(api.AuthJWT)
 
 	r.POST("/post", api.Post)

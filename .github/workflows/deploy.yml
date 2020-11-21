@@ -33,7 +33,7 @@ jobs:
           REACT_APP_FB_MESSAGEING_SENDER_ID: ${{ secrets.REACT_APP_FB_MESSAGEING_SENDER_ID }}
           REACT_APP_SERVER_URL: ${{ secrets.REACT_APP_SERVER_URL }}
         run: |
-          yarn build
+          yarn install && yarn build
 
       - name: Setup Firebase CLI
         run: |

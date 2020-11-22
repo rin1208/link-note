@@ -3,12 +3,10 @@ import TextField from '@material-ui/core/TextField';
 import Grid from "@material-ui/core/Grid";
 import axios from 'axios'
 import styled from "@emotion/styled";
-import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
 import { ReactTinyLink } from 'react-tiny-link'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -31,10 +29,6 @@ const PostField = styled.div`
     flex-direction: column;
     margin: 20px 0 0 0
 `;
-const Back = styled.div`
-background: #326693; 
-`;
-
 
 const Footer = styled.footer`
 width: 95%;
@@ -50,8 +44,7 @@ function Content() {
 
     const [front, setPost] = useState([]);
     const [url, setUrl] = useState("");
-    const [comment, setComment] = useState("");
-    const [isRedirect, setIsRedirect] = useState(false);
+    // const [comment, setComment] = useState("");
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -64,23 +57,14 @@ function Content() {
     const handleUrl = e => {
         setUrl(e.target.value)
     }
+    // const handcomment = e => {
+    //     setComment(e.target.value)
+    // }
 
-    const handcomment = e => {
-        setComment(e.target.value)
-    }
-
-
-    const [formData, setFormData] = useState({
-        url: "",
-        comment: "",
-        user_id: ""
-    })
-
-
-    const fileInput = React.createRef()
 
     const handleSubmit = async () => {
-        const data = { url: url, comment: comment, uid: localStorage.getItem("uid") }
+        // const data = { url: url, comment: comment, uid: localStorage.getItem("uid") }
+        const data = { url: url, uid: localStorage.getItem("uid") }
         const headers = {
             'Authorization': localStorage.getItem("jwt") ,
             'Uid': localStorage.getItem("uid") 
@@ -149,9 +133,9 @@ function Content() {
                                         <Card >
                                             <CardContent>
                                                 <Typography  >
-                                                    <p>
+                                                    {/* <p>
                                                         {item.comment}
-                                                    </p>
+                                                    </p> */}
                                                 </Typography>
                                                 <Typography  >
                                                     <ReactTinyLink

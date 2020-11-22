@@ -13,57 +13,37 @@ import (
 )
 
 func main() {
-	if os.Getenv("FRONT_URL") == "" {
+	port := os.Getenv("PORT")
+	if port == "" {
 		err := godotenv.Load(fmt.Sprintf("./%s.env", os.Getenv("GO_ENV")))
 		if err != nil {
 			fmt.Println(err)
 		}
-
-		r := gin.Default()
-		r.Use(cors.New(cors.Config{
-			AllowMethods: []string{
-				"POST",
-				"GET",
-				"OPTIONS",
-				"PUT",
-				"DELETE",
-			},
-			AllowHeaders: []string{
-				"Content-Type",
-				"Content-Length",
-				"Authorization",
-				"Uid",
-			},
-			AllowOrigins: []string{
-				"http://localhost:3000",
-			},
-			MaxAge: 24 * time.Hour,
-		}))
-
-		pkg.Serve(r, ":8080")
-	} else {
-		r := gin.Default()
-		r.Use(cors.New(cors.Config{
-			AllowMethods: []string{
-				"POST",
-				"GET",
-				"OPTIONS",
-				"PUT",
-				"DELETE",
-			},
-			AllowHeaders: []string{
-				"Content-Type",
-				"Content-Length",
-				"cache-control",
-				"user_id",
-			},
-			AllowOrigins: []string{
-				os.Getenv("FRONT_URL"),
-			},
-			MaxAge: 24 * time.Hour,
-		}))
-
-		pkg.Serve(r, ":"+os.Getenv("PORT"))
+		port = os.Getenv("LOCAL_PORT")
 	}
+	r := gin.Default()
+	r.Use(cors.New(cors.Config{
+		AllowMethods: []string{
+			"POST",
+			"GET",
+			"OPTIONS",
+			"PUT",
+			"DELETE",
+		},
+		AllowHeaders: []string{
+			"Content-Type",
+			"Content-Length",
+			"Authorization",
+			"Uid",
+		},
+		AllowOrigins: []string{
+			"http://localhost:3000",
+			"https://link-no-te.web.app",
+			"https://link-no-te.firebaseapp.com",
+		},
+		MaxAge: 24 * time.Hour,
+	}))
+
+	pkg.Serve(r, ":"+port)
 
 }

@@ -26,7 +26,7 @@ const Sub = styled.div`
   text-align: center;
 `;
 
-const Post_field = styled.div`
+const PostField = styled.div`
     display: flex;
     flex-direction: column;
     margin: 20px 0 0 0
@@ -199,10 +199,10 @@ function Content() {
                         <Typography  >
                             <Grid container item xs={12} spacing={2}>
                                 <Grid item xs={10} md={10}>
-                                    <Post_field>
+                                    <PostField>
                                         <TextField label="url" onChange={handleUrl} value={url} />
                                         {/* <TextField label="comment" onChange={handcomment} /> */}
-                                    </Post_field>
+                                    </PostField>
                                 </Grid>
                                 <Grid item xs={2} md={2}>
                                     <Button onClick={handleSubmit} variant="outlined">post</Button>

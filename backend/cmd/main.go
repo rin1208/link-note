@@ -38,8 +38,8 @@ func main() {
 		},
 		AllowOrigins: []string{
 			"http://localhost:3000",
-			"https://link-no-te.web.app",
-			"https://link-no-te.firebaseapp.com",
+			os.Getenv("FRONT_URL1"),
+			os.Getenv("FRONT_URL2"),
 		},
 		MaxAge: 24 * time.Hour,
 	}))

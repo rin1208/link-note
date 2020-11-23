@@ -27,13 +27,13 @@ func (api API) Post(c *gin.Context) {
 	c.BindJSON(&data)
 	match, _ := regexp.MatchString("http", data.Url)
 	if !match {
-		c.JSON(404, "Forbidden")
+		c.JSON(400, "Forbidden")
 	} else {
 		data.Content_id = usecase.Uuid4()
 		data.Date = usecase.GetDeteInTokyo()
 		data.Uid = c.GetHeader("Uid")
 		api.FireBaseClient.InsertData(data)
-		c.JSON(200, data)
+		c.JSON(200, "ok")
 	}
 
 }

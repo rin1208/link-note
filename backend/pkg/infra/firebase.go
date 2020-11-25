@@ -27,9 +27,11 @@ type FirestoreAuth struct {
 }
 
 type FireBaseClient struct {
-	FireBase  *firebase.App
-	FireStore *firestore.Client
-	Ctx       context.Context
+	FireBase      *firebase.App
+	FireStore     *firestore.Client
+	Ctx           context.Context
+	CollectionRef *firestore.CollectionRef
+	DocumentRef   *firestore.DocumentRef
 }
 
 type FireBaseHandler interface {
@@ -84,9 +86,7 @@ func (fb *FireBaseClient) DeleteData(uid, id string) error {
 	if err != nil {
 		return err
 	}
-
 	return nil
-
 }
 
 func (fb *FireBaseClient) GetData(uid string) []model.Content {
@@ -133,4 +133,28 @@ func (fb *FireBaseClient) AuthJWT(jwt string) error {
 		return err
 	}
 	return nil
+}
+
+func (fb *FireBaseClient) Collection(path string) *FireBaseClient {
+	fb.CollectionRef = fb.FireStore.Collection(path)
+	return fb
+}
+
+func (fb *FireBaseClient) Set(ctx context.Context, data interface{}) error {
+	_, err := fb.DocumentRef.Set(ctx, data, firestore.MergeAll)
+	return err
+}
+
+func (fb *FireBaseClient) Doc(id string) *FireBaseClient {
+	fb.DocumentRef = fb.CollectionRef.Doc(id)
+	return fb
+}
+func (fb *FireBaseClient) Documents(ctx context.Context) *firestore.DocumentIterator {
+	res := fb.CollectionRef.Documents(ctx)
+	return res
+}
+
+func (fb *FireBaseClient) Delete(ctx context.Context) error {
+	_, err := fb.DocumentRef.Delete(ctx)
+	return err
 }

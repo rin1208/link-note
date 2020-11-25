@@ -67,7 +67,7 @@ func Init_firebase() FireBaseHandler {
 	}
 }
 
-func (fb *FireBaseClient) InsertData(data model.Content) {
+func (fb *FireBase) InsertData(data model.Content) {
 
 	updateError := fb.Collection(data.Uid).Doc(data.Content_id).Set(context.Background(), map[string]interface{}{
 		"content_id": data.Content_id,
@@ -90,7 +90,7 @@ func (fb *FireBase) DeleteData(uid, id string) error {
 	return nil
 }
 
-func (fb *FireBaseClient) GetData(uid string) []model.Content {
+func (fb *FireBase) GetData(uid string) []model.Content {
 
 	var res_data []model.Content
 	iter := fb.Collection(uid).Documents(context.Background())

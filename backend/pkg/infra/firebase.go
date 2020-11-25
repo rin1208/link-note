@@ -35,10 +35,11 @@ type FireBaseClient struct {
 }
 
 type FireBaseHandler interface {
-	InsertData(data model.Content)
-	DeleteData(uid, id string) error
-	GetData(uid string) []model.Content
-	AuthJWT(jwt string) error
+	Collection(path string) *FireBaseClient
+	Set(ctx context.Context, data interface{}) error
+	Doc(id string) *FireBaseClient
+	Documents(ctx context.Context) *firestore.DocumentIterator
+	Delete(ctx context.Context) error
 }
 
 type FireBase struct {
@@ -68,20 +69,20 @@ func Init_firebase() FireBaseHandler {
 
 func (fb *FireBaseClient) InsertData(data model.Content) {
 
-	_, updateError := fb.FireStore.Collection(data.Uid).Doc(data.Content_id).Set(fb.Ctx, map[string]interface{}{
+	updateError := fb.Collection(data.Uid).Doc(data.Content_id).Set(context.Background(), map[string]interface{}{
 		"content_id": data.Content_id,
 		"comment":    data.Comment,
 		"url":        data.Url,
 		"date":       data.Date,
-	}, firestore.MergeAll)
+	})
 	if updateError != nil {
 		log.Printf("An error has occurred: %s", updateError)
 	}
 }
 
-func (fb *FireBaseClient) DeleteData(uid, id string) error {
+func (fb *FireBase) DeleteData(uid, id string) error {
 
-	_, err := fb.FireStore.Collection(uid).Doc(id).Delete(fb.Ctx)
+	err := fb.Collection(uid).Doc(id).Delete(context.Background())
 
 	if err != nil {
 		return err
@@ -92,7 +93,7 @@ func (fb *FireBaseClient) DeleteData(uid, id string) error {
 func (fb *FireBaseClient) GetData(uid string) []model.Content {
 
 	var res_data []model.Content
-	iter := fb.FireStore.Collection(uid).Documents(fb.Ctx)
+	iter := fb.Collection(uid).Documents(context.Background())
 
 	for {
 		doc, err := iter.Next()

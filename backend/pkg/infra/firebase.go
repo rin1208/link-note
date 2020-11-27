@@ -42,6 +42,7 @@ type FireBaseHandler interface {
 	Doc(id string) *FireBaseClient
 	Documents(ctx context.Context) *firestore.DocumentIterator
 	Delete(ctx context.Context) error
+	VerifyIDToken(ctx context.Context, idToken string) error
 }
 
 type FireBase struct {
@@ -125,22 +126,19 @@ func (fb *FireBase) GetData(uid string) []model.Content {
 
 }
 
-func (fb *FireBaseClient) AuthJWT(jwt string) error {
+func (fb *FireBase) AuthJWT(jwt string) error {
 
-	auth, err := fb.FireBase.Auth(fb.Ctx)
-	if err != nil {
-
-		return err
-
-	}
 	idToken := strings.Replace(jwt, "Bearer ", "", 1)
-
-	_, err = auth.VerifyIDToken(fb.Ctx, idToken)
+	err := fb.VerifyIDToken(context.Background(), idToken)
 	if err != nil {
-
 		return err
 	}
 	return nil
+}
+
+func (fb *FireBaseClient) VerifyIDToken(ctx context.Context, idToken string) error {
+	_, err := fb.Auth.VerifyIDToken(ctx, idToken)
+	return err
 }
 
 func (fb *FireBaseClient) Collection(path string) *FireBaseClient {

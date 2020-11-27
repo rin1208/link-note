@@ -10,6 +10,7 @@ import (
 	"google.golang.org/api/option"
 
 	firebase "firebase.google.com/go"
+	"firebase.google.com/go/auth"
 	"google.golang.org/api/iterator"
 )
 
@@ -27,16 +28,21 @@ type FirestoreAuth struct {
 }
 
 type FireBaseClient struct {
-	FireBase  *firebase.App
-	FireStore *firestore.Client
-	Ctx       context.Context
+	FireBase      *firebase.App
+	FireStore     *firestore.Client
+	Ctx           context.Context
+	CollectionRef *firestore.CollectionRef
+	DocumentRef   *firestore.DocumentRef
+	Auth          *auth.Client
 }
 
 type FireBaseHandler interface {
-	InsertData(data model.Content)
-	DeleteData(uid, id string) error
-	GetData(uid string) []model.Content
-	AuthJWT(jwt string) error
+	Collection(path string) *FireBaseClient
+	Set(ctx context.Context, data interface{}) error
+	Doc(id string) *FireBaseClient
+	Documents(ctx context.Context) *firestore.DocumentIterator
+	Delete(ctx context.Context) error
+	VerifyIDToken(ctx context.Context, idToken string) error
 }
 
 type FireBase struct {
@@ -56,43 +62,47 @@ func Init_firebase() FireBaseHandler {
 	if err != nil {
 		return nil
 	}
+	auth, err := app.Auth(ctx)
+	if err != nil {
+		return nil
+
+	}
 
 	return &FireBaseClient{
 		FireBase:  app,
 		FireStore: client,
 		Ctx:       ctx,
+		Auth:      auth,
 	}
 }
 
-func (fb *FireBaseClient) InsertData(data model.Content) {
+func (fb *FireBase) InsertData(data model.Content) {
 
-	_, updateError := fb.FireStore.Collection(data.Uid).Doc(data.Content_id).Set(fb.Ctx, map[string]interface{}{
+	updateError := fb.Collection(data.Uid).Doc(data.Content_id).Set(context.Background(), map[string]interface{}{
 		"content_id": data.Content_id,
 		"comment":    data.Comment,
 		"url":        data.Url,
 		"date":       data.Date,
-	}, firestore.MergeAll)
+	})
 	if updateError != nil {
 		log.Printf("An error has occurred: %s", updateError)
 	}
 }
 
-func (fb *FireBaseClient) DeleteData(uid, id string) error {
+func (fb *FireBase) DeleteData(uid, id string) error {
 
-	_, err := fb.FireStore.Collection(uid).Doc(id).Delete(fb.Ctx)
+	err := fb.Collection(uid).Doc(id).Delete(context.Background())
 
 	if err != nil {
 		return err
 	}
-
 	return nil
-
 }
 
-func (fb *FireBaseClient) GetData(uid string) []model.Content {
+func (fb *FireBase) GetData(uid string) []model.Content {
 
 	var res_data []model.Content
-	iter := fb.FireStore.Collection(uid).Documents(fb.Ctx)
+	iter := fb.Collection(uid).Documents(context.Background())
 
 	for {
 		doc, err := iter.Next()
@@ -116,21 +126,41 @@ func (fb *FireBaseClient) GetData(uid string) []model.Content {
 
 }
 
-func (fb *FireBaseClient) AuthJWT(jwt string) error {
-
-	auth, err := fb.FireBase.Auth(fb.Ctx)
-	if err != nil {
-
-		return err
-
-	}
+func (fb *FireBase) AuthJWT(jwt string) error {
 
 	idToken := strings.Replace(jwt, "Bearer ", "", 1)
-
-	_, err = auth.VerifyIDToken(fb.Ctx, idToken)
+	err := fb.VerifyIDToken(context.Background(), idToken)
 	if err != nil {
-
 		return err
 	}
 	return nil
+}
+
+func (fb *FireBaseClient) VerifyIDToken(ctx context.Context, idToken string) error {
+	_, err := fb.Auth.VerifyIDToken(ctx, idToken)
+	return err
+}
+
+func (fb *FireBaseClient) Collection(path string) *FireBaseClient {
+	fb.CollectionRef = fb.FireStore.Collection(path)
+	return fb
+}
+
+func (fb *FireBaseClient) Set(ctx context.Context, data interface{}) error {
+	_, err := fb.DocumentRef.Set(ctx, data, firestore.MergeAll)
+	return err
+}
+
+func (fb *FireBaseClient) Doc(id string) *FireBaseClient {
+	fb.DocumentRef = fb.CollectionRef.Doc(id)
+	return fb
+}
+func (fb *FireBaseClient) Documents(ctx context.Context) *firestore.DocumentIterator {
+	res := fb.CollectionRef.Documents(ctx)
+	return res
+}
+
+func (fb *FireBaseClient) Delete(ctx context.Context) error {
+	_, err := fb.DocumentRef.Delete(ctx)
+	return err
 }

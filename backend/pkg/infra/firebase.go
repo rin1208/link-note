@@ -10,6 +10,7 @@ import (
 	"google.golang.org/api/option"
 
 	firebase "firebase.google.com/go"
+	"firebase.google.com/go/auth"
 	"google.golang.org/api/iterator"
 )
 
@@ -32,6 +33,7 @@ type FireBaseClient struct {
 	Ctx           context.Context
 	CollectionRef *firestore.CollectionRef
 	DocumentRef   *firestore.DocumentRef
+	Auth          *auth.Client
 }
 
 type FireBaseHandler interface {
@@ -59,11 +61,17 @@ func Init_firebase() FireBaseHandler {
 	if err != nil {
 		return nil
 	}
+	auth, err := app.Auth(ctx)
+	if err != nil {
+		return nil
+
+	}
 
 	return &FireBaseClient{
 		FireBase:  app,
 		FireStore: client,
 		Ctx:       ctx,
+		Auth:      auth,
 	}
 }
 
@@ -125,7 +133,6 @@ func (fb *FireBaseClient) AuthJWT(jwt string) error {
 		return err
 
 	}
-
 	idToken := strings.Replace(jwt, "Bearer ", "", 1)
 
 	_, err = auth.VerifyIDToken(fb.Ctx, idToken)

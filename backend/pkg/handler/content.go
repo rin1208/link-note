@@ -10,13 +10,15 @@ import (
 )
 
 type API struct {
-	FireBaseClient *infra.FireBase
+	FireBaseClient usecase.UserInteractor
 }
 
 func Init_API(firebase infra.FireBaseHandler) *API {
 	return &API{
-		FireBaseClient: &infra.FireBase{
-			FireBaseHandler: firebase,
+		FireBaseClient: usecase.UserInteractor{
+			UserRepository: &infra.FireBase{
+				FireBaseHandler: firebase,
+			},
 		},
 	}
 

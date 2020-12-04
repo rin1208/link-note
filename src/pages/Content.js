@@ -8,8 +8,8 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import { ReactTinyLink } from 'react-tiny-link'
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+// import Menu from '@material-ui/core/Menu';
+// import MenuItem from '@material-ui/core/MenuItem';
 
 import Typography from '@material-ui/core/Typography';
 
@@ -45,15 +45,15 @@ function Content() {
     const [front, setPost] = useState([]);
     const [url, setUrl] = useState("");
     // const [comment, setComment] = useState("");
-    const [anchorEl, setAnchorEl] = useState(null);
+    // const [anchorEl, setAnchorEl] = useState(null);
 
-    const handleClick = (event) => {
-      setAnchorEl(event.currentTarget);
-    };
+    // const handleClick = (event) => {
+    //   setAnchorEl(event.currentTarget);
+    // };
   
-    const handleClose = () => {
-      setAnchorEl(null);
-    };
+    // const handleClose = () => {
+    //   setAnchorEl(null);
+    // };
     const handleUrl = e => {
         setUrl(e.target.value)
     }
@@ -105,7 +105,7 @@ function Content() {
     }, []);
     const deleteContent =async (id ) => {
  
-       
+        console.log("hogaaaa",id);
         const data = { content_id: id }
         const headers = {
             'Authorization': localStorage.getItem("jwt") ,
@@ -115,7 +115,7 @@ function Content() {
         await axios.post(`${process.env.REACT_APP_SERVER_URL+'/deletecontent'}`, data,{headers: headers}).then((results) => {
             console.log(results);
         })
-        setAnchorEl(null);
+        // setAnchorEl(null);
         getContent();
     }
 
@@ -152,18 +152,18 @@ function Content() {
                                             <Sub>
                                                 <CardActions>
                                        
-                                                    <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                                                    {/* <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                                                     Delete
-                                                    </Button>
-                                                    <Menu
+                                                    </Button> */}
+                                                    {/* <Menu
                                                         anchorEl={anchorEl}
                                                         keepMounted
                                                         open={Boolean(anchorEl)}
                                                         onClose={handleClose}
-                                                    >
-                                                        <MenuItem key={item.content_id} onClick={() => deleteContent(item.content_id)}> Delete</MenuItem>  
-                                                        <MenuItem onClick={handleClose}>Cansell</MenuItem>
-                                                    </Menu>                                               
+                                                    > */}
+                                                        <Button key={item.content_id} onClick={() => deleteContent(item.content_id)}> Delete</Button>  
+                                                        {/* <MenuItem onClick={handleClose}>Cansell</MenuItem> */}
+                                                    {/* </Menu>                                                */}
                                                 </CardActions>
                                             </Sub>
                         
